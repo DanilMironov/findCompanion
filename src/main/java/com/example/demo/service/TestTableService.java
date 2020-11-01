@@ -18,7 +18,7 @@ public class TestTableService {
 
     // создаем поле компонента, который нужен в этом компоненте
     private TestTableRepository testTableRepository;
-    // создаем конструктор, в котором указываем как входные паарметры имена компонентов (бины), которые тут нуэжно подключить. В данном случае- TestTableRepository
+    // после поля создаем конструктор, в котором указываем как входные паарметры имена компонентов (бины), которые тут нуэжно подключить. В данном случае- TestTableRepository
     public TestTableService(TestTableRepository testTableRepository) {
         this.testTableRepository = testTableRepository;
     }

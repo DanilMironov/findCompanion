@@ -10,9 +10,9 @@ import java.util.UUID;
 @Table(name = "test_table") // показывает, что сущность - таблица
 public class TestTable {
     @Id // показывает, что это поле соответсвует primary key из таблицы
-    @Column(name = "id") // показывает, что поле соответствует колонке из базы с именем id
+    @Column(name = "id", columnDefinition = "uuid") // показывает, что поле соответствует колонке из базы с именем id
     private UUID id;
-    @Column(name = "name")
+    @Column(name = "name", columnDefinition = "text") // columnDefinition - это указать, какого типа колонка в БД
     private String name;
 
     //alt + insert позволяет создать всякую штуку автоматически. Сейчас создали геттеры и сеттеры.
