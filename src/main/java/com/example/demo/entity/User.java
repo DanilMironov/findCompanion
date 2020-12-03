@@ -2,23 +2,19 @@ package com.example.demo.entity;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.persistence.Transient;
+import javax.persistence.*;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+
 @Entity
 @Table(name = "users")
 public class User implements UserDetails
 {
-//    @Column(name = "id", columnDefinition = "uuid")
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,8 +28,15 @@ public class User implements UserDetails
 
     private String description;
 
-//    @Column(name = "events_ids", columnDefinition = "uuid[]")
-//    private ArrayList<String> eventsUuids;
+    //нужно будет учесть update  в бд
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL) // если удаляется элемент - удаляются остальныек
+    private Set<Event> events;
+
+    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
+    private Set<Message> messages;
+
+    @ManyToMany(mappedBy = "subscribers")
+    private Set<Event> subscribeTo;
 
     @Transient //не имеет отображения в БД
     private String passwordConfirm;
@@ -107,20 +110,37 @@ public class User implements UserDetails
         this.description = description;
     }
 
-//    public ArrayList<String> getEventsUuids() {
-//        return eventsUuids;
-//    }
-
-//    public void setEventsUuids(ArrayList<String> eventsUuids) {
-//        this.eventsUuids = eventsUuids;
-//    }
-
     public String getPasswordConfirm() {
         return passwordConfirm;
     }
 
     public void setPasswordConfirm(String passwordConfirm) {
         this.passwordConfirm = passwordConfirm;
+    }
+
+    public void setId(Long id)
+    {
+        this.id = id;
+    }
+
+    public Set<Event> getEvents()
+    {
+        return events;
+    }
+
+    public void setEvents(Set<Event> eventsIds)
+    {
+        this.events = eventsIds;
+    }
+
+    public Set<Event> getSubscribeTo()
+    {
+        return subscribeTo;
+    }
+
+    public void setSubscribeTo(Set<Event> subscribeTo)
+    {
+        this.subscribeTo = subscribeTo;
     }
 
 }

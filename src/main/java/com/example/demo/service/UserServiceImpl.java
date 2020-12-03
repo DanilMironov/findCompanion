@@ -3,12 +3,11 @@ package com.example.demo.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
-
 import com.example.demo.entity.User;
 import com.example.demo.repository.UserRepository;
 
 @Service
-public class UserServiceImpl implements UserService
+public class UserServiceImpl  implements UserService
 {
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
@@ -33,6 +32,11 @@ public class UserServiceImpl implements UserService
     @Override
     public boolean editProfile(User user)
     {
+        var newUsername = user.getUsername();
+        if (userRepository.findByUsername(newUsername) != null)
+        {
+            return false;
+        }
         var currentUsername = securityService.findLoggedInUsername();
         var userFromDb = userRepository.findByUsername(currentUsername);
         userFromDb.setDescription(user.getDescription());
@@ -41,19 +45,6 @@ public class UserServiceImpl implements UserService
         userRepository.save(userFromDb);
         return true;
     }
-
-//    @Override
-//    public boolean editProfile(User user)
-//    {
-//        var userFromDb = userRepository.findByUsername(user.getUsername());
-//        if (userFromDb != null)
-//        {
-//            return false;
-//        }
-////        user.setBirthdate(user.getBirthdate());
-////        user.setDescription(user.getDescription());
-////        user.setUsername(user.getUsername());
-//    }
 
 
     @Override
