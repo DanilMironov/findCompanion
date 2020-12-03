@@ -57,7 +57,7 @@ public class Event implements Comparable<Event> {
         return title;
     }
 
-    public void setTitle(String title) {
+        public void setTitle(String title) {
         this.title = title;
     }
 
